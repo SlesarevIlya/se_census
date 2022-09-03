@@ -1,0 +1,25 @@
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+
+# VS code project files
+.vscode*
+
+#macOS
+.DS_Store
+
+# Project files
+target
+venv
+.venv
+*.pyc
+.coverage
+cover
+*__pycache__*
+.ipynb_checkpoints
+*.xlsx
+
+# pytest
+.pytest_cache
