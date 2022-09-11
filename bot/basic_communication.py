@@ -2,7 +2,7 @@ import logging
 from typing import NoReturn
 from uuid import uuid4
 
-from telegram import Update, InlineQueryResultArticle, InputTextMessageContent
+from telegram import Update, InlineQueryResultArticle, InputTextMessageContent, InlineQueryResultCachedPhoto
 from telegram.ext import CallbackContext, ContextTypes
 
 from bot.credentials import postgre_creds
@@ -24,7 +24,7 @@ async def help(update: Update, context: CallbackContext):
 
 async def my_profile(update: Update, context: CallbackContext):
     pg_conn = PgUsers(pg_creds=postgre_creds)
-    user_meta = [user.full_meta() for user in pg_conn.get_user_by_name(update.message.from_user.name)]
+    user_meta = [user for user in pg_conn.get_user_by_name(update.message.from_user.name)]
     await update.message.reply_text(str(user_meta))
 
 
