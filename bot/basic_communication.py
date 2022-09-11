@@ -24,8 +24,8 @@ async def help(update: Update, context: CallbackContext):
 
 async def my_profile(update: Update, context: CallbackContext):
     pg_conn = PgUsers(pg_creds=postgre_creds)
-    user_meta = pg_conn.get_user_by_name(update.message.from_user.name)
-    await update.message.reply_text(user_meta)
+    user_meta = [user.full_meta() for user in pg_conn.get_user_by_name(update.message.from_user.name)]
+    await update.message.reply_text(str(user_meta))
 
 
 async def inline_query(update: Update, context: ContextTypes.DEFAULT_TYPE) -> NoReturn:
@@ -36,8 +36,9 @@ async def inline_query(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
     pg_conn = PgUsers(pg_creds=postgre_creds)
     results = [InlineQueryResultArticle(id=str(uuid4()),
-                                        title=str(result),
-                                        input_message_content=InputTextMessageContent(str(result)))
-               for result in pg_conn.get_user_by_prefix(query)]
+                                        title=user.full_name(),
+                                        input_message_content=InputTextMessageContent(user.full_meta()),
+                                        description=user.description())
+               for user in pg_conn.get_user_by_prefix(query)]
 
     await update.inline_query.answer(results)
