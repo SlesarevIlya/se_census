@@ -2,7 +2,7 @@ class User:
 
     def __init__(self,
                  id: int = 0,
-                 name: str = "@slesarevpr",
+                 name: str = "0",
                  first_name: str = "0",
                  last_name: str = "0",
                  bachelor_year: str = "0",
