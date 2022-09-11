@@ -18,7 +18,8 @@ class WhoAmIConversation:
 
     def get_handler(self):
         return ConversationHandler(
-            entry_points=[CommandHandler("whoami", self.start)],
+            entry_points=[CommandHandler("whoami", self.start),
+                          CommandHandler("cancel", self.cancel)],
             states={
                 self.NAME: [MessageHandler(filters=filters.ALL, callback=self.name)],
                 self.BACHELOR_YEAR: [MessageHandler(filters=filters.ALL, callback=self.bachelor_year)],
@@ -54,6 +55,7 @@ class WhoAmIConversation:
             self.user.first_name = name_arr[0]
         else:
             self.user.first_name, self.user.last_name = name_arr
+        self.user.id = update.message.from_user.id
         self.logger.info(f"{self.user.name} name: {self.user.first_name} {self.user.last_name}")
 
         await update.message.reply_text(f"[{self.BACHELOR_YEAR}]: Graduating bachelor year? (0 - if not applicable)")

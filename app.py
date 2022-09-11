@@ -2,13 +2,13 @@ import logging
 from typing import NoReturn, Optional, Tuple
 
 from telegram import Chat, ChatMember, ChatMemberUpdated, Update
-from telegram.ext import (Application, CommandHandler,
-                          ContextTypes, InlineQueryHandler)
+from telegram.ext import (Application, CommandHandler, ContextTypes,
+                          InlineQueryHandler)
 
-from bot.basic_communication import help, start, my_profile, inline_query
+from bot.basic_communication import help, inline_query, my_profile, start
+from bot.credentials import bot_token, postgre_creds
 from bot.postgre.users import PgUsers
 from bot.who_am_i import WhoAmIConversation
-from bot.credentials import bot_token, postgre_creds
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)

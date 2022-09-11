@@ -1,6 +1,7 @@
 create table if not exists public.users
 (
-    name          varchar(256) default null,
+    id int,
+    name          varchar(256),
     first_name    varchar(256),
     last_name     varchar(256),
     bachelor_year varchar(256),
@@ -11,5 +12,6 @@ create table if not exists public.users
     position      varchar(256),
     linkedin      varchar(256),
     instagram     varchar(256),
-    hobbies       varchar(256)
+    hobbies       varchar(256),
+    primary key (id)
 );

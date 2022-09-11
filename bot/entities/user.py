@@ -1,6 +1,7 @@
 class User:
 
     def __init__(self,
+                 id: int = 0,
                  name: str = "@slesarevpr",
                  first_name: str = "0",
                  last_name: str = "0",
@@ -13,6 +14,7 @@ class User:
                  linkedin: str = "0",
                  instagram: str = "0",
                  hobbies: str = "0"):
+        self.id = id
         self.name = name
         self.first_name = first_name
         self.last_name = last_name
@@ -46,11 +48,11 @@ class User:
     def description(self) -> str:
         description: str = ""
         if self.bachelor_year != "0" and self.magister_year != "0":
-            description += f"bachelor: {self.bachelor_year}, magister: {self.bachelor_year}\n"
+            description += f"bachelor: {self.bachelor_year}, magister: {self.magister_year}\n"
         elif self.bachelor_year != "0":
             description += f"bachelor: {self.bachelor_year}\n"
         elif self.magister_year != "0":
-            description += f"magister: {self.bachelor_year}\n"
+            description += f"magister: {self.magister_year}\n"
 
         if self.country != "0":
             if self.city != "0":
