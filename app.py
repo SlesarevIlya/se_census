@@ -1,16 +1,16 @@
 import logging
 from typing import NoReturn, Optional, Tuple
+
 from telegram import Chat, ChatMember, ChatMemberUpdated, Update
-from telegram.constants import ParseMode
-from telegram.ext import Application, ChatMemberHandler, CommandHandler, ContextTypes, ConversationHandler, \
-    MessageHandler, filters
-from bot.basic_communication import help, start, unknown
-from bot.credentials import bot_token
-from bot.whois_conversation import WhoIsConversation
+from telegram.ext import (Application, CommandHandler,
+                          ContextTypes, InlineQueryHandler)
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    level=logging.INFO)
+from bot.basic_communication import help, start, my_profile, inline_query
+from bot.postgre.users import PgUsers
+from bot.who_am_i import WhoAmIConversation
+from bot.credentials import bot_token, postgre_creds
 
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
@@ -78,26 +78,13 @@ async def track_chats(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
 def main() -> NoReturn:
     application = Application.builder().token(bot_token).build()
 
-    whois = WhoIsConversation(logger)
-
     # application.add_handler(ChatMemberHandler(track_chats, ChatMemberHandler.MY_CHAT_MEMBER))
 
-    conv_handler = ConversationHandler(
-        entry_points=[CommandHandler("whoami", whois.whoami)],
-        states=dict(
-            ISSUE_YEAR=[
-                MessageHandler(filters=filters.Regex("^(20)"), callback=whois.current_location)
-            ]
-        ),
-        fallbacks=[CommandHandler("cancel", whois.cancel)]
-    )
-
-    application.add_handler(conv_handler)
-
+    application.add_handler(WhoAmIConversation(pg_conn=PgUsers(pg_creds=postgre_creds), logger=logger).get_handler())
+    application.add_handler(CommandHandler("myprofile", my_profile))
+    application.add_handler(InlineQueryHandler(inline_query))
     application.add_handler(CommandHandler('start', start))
     application.add_handler(CommandHandler('help', help))
-    # application.add_handler(CommandHandler('whois', whois))
-    # application.add_handler(CommandHandler('whoami', whoami))
 
     application.run_polling()
 
