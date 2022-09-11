@@ -41,7 +41,7 @@ class User:
                          "hobbies:", self.hobbies, "\n"])
 
     def full_name(self):
-        return f"{self.name} {self.first_name} {self.last_name}"
+        return f"{self.name}: {self.first_name} {self.last_name}"
 
     def description(self) -> str:
         description: str = ""
