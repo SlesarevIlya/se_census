@@ -15,6 +15,9 @@ psql postgres
 
 ## how to develop
 git branch -> feature/DEV_145_communication
+
 git update (main)
+
 git rebase (from your branch) on main
+
 resolve conflicts
