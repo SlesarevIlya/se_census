@@ -6,7 +6,7 @@ class User:
                  first_name: str = "0",
                  last_name: str = "0",
                  bachelor_year: str = "0",
-                 magister_year: str = "0",
+                 master_year: str = "0",
                  country: str = "0",
                  city: str = "0",
                  company: str = "0",
@@ -19,7 +19,7 @@ class User:
         self.first_name = first_name
         self.last_name = last_name
         self.bachelor_year = bachelor_year
-        self.magister_year = magister_year
+        self.master_year = master_year
         self.country = country
         self.city = city
         self.company = company
@@ -33,7 +33,7 @@ class User:
                          "first_name:", self.first_name, "\n",
                          "last_name:", self.last_name, "\n",
                          "bachelor_year:", self.bachelor_year, "\n",
-                         "magister_year:", self.magister_year, "\n",
+                         "master_year:", self.master_year, "\n",
                          "country:", self.country, "\n",
                          "city:", self.city, "\n",
                          "company:", self.company, "\n",
@@ -47,12 +47,12 @@ class User:
 
     def description(self) -> str:
         description: str = ""
-        if self.bachelor_year != "0" and self.magister_year != "0":
-            description += f"bachelor: {self.bachelor_year}, magister: {self.magister_year}\n"
+        if self.bachelor_year != "0" and self.master_year != "0":
+            description += f"bachelor: {self.bachelor_year}, magister: {self.master_year}\n"
         elif self.bachelor_year != "0":
             description += f"bachelor: {self.bachelor_year}\n"
-        elif self.magister_year != "0":
-            description += f"magister: {self.magister_year}\n"
+        elif self.master_year != "0":
+            description += f"magister: {self.master_year}\n"
 
         if self.country != "0":
             if self.city != "0":

@@ -15,7 +15,7 @@ class WhoAmIConversation:
         self.logger = logger
         self.user = User()
 
-    NAME, BACHELOR_YEAR, MAGISTER_YEAR, COUNTRY, CITY, WORKING_COMPANY, POSITION, LINKEDIN, INST, HOBBIES = range(10)
+    NAME, BACHELOR_YEAR, master_year, COUNTRY, CITY, WORKING_COMPANY, POSITION, LINKEDIN, INST, HOBBIES = range(10)
 
     def get_handler(self):
         return ConversationHandler(
@@ -24,7 +24,7 @@ class WhoAmIConversation:
             states={
                 self.NAME: [MessageHandler(filters=filters.ALL, callback=self.name)],
                 self.BACHELOR_YEAR: [MessageHandler(filters=filters.ALL, callback=self.bachelor_year)],
-                self.MAGISTER_YEAR: [MessageHandler(filters=filters.ALL, callback=self.magister_year)],
+                self.master_year: [MessageHandler(filters=filters.ALL, callback=self.master_year)],
                 self.COUNTRY: [MessageHandler(filters=filters.Regex("[^0]"), callback=self.country),
                                MessageHandler(filters=filters.Regex("0"), callback=self.city)],
                 self.CITY: [MessageHandler(filters=filters.ALL, callback=self.city)],
@@ -65,12 +65,12 @@ class WhoAmIConversation:
         self.user.bachelor_year = update.message.text
         self.logger.info(f"{self.user.name} bachelor_year: {self.user.bachelor_year}")
 
-        await update.message.reply_text(f"[{self.MAGISTER_YEAR}]: Graduating magister year? (0 - if not applicable)")
-        return self.MAGISTER_YEAR
+        await update.message.reply_text(f"[{self.master_year}]: Graduating magister year? (0 - if not applicable)")
+        return self.master_year
 
-    async def magister_year(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-        self.user.magister_year = update.message.text
-        self.logger.info(f"{self.user.name} magister_year: {self.user.magister_year}")
+    async def master_year(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+        self.user.master_year = update.message.text
+        self.logger.info(f"{self.user.name} master_year: {self.user.master_year}")
 
         await update.message.reply_text(f"[{self.COUNTRY}]: Current location country? (0 - if you're shy)")
         return self.COUNTRY
