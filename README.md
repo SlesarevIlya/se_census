@@ -34,7 +34,21 @@ ssh root@45.10.245.93
 git clone https://github.com/SlesarevIlya/se_census.git
 cp credentials.py se_census/bot_tg/
 cd se_census/
+git fetch
 git pull
 nohup python3.10 app_tg.py &
 export PYTHONPATH="/root/se_census" && python3.10 bot_tg/postgres/initial_script.py
+ps -ef | grep app_tg.py
+kill PID (2d column)
+```
+## redeploy bot
+```shell
+cd se_census/
+git fetch
+git pull
+ps -ef | grep app_tg.py
+kill PID (2d column)
+
+nohup python3.10 app_tg.py &
+nohup python3.10 -u app_tg.py > cmd.log &
 ```
