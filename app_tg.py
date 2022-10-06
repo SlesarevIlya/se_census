@@ -13,7 +13,7 @@ from bot_tg.who_am_i import WhoAmIConversation
 
 
 def main() -> NoReturn:
-    application = Application.builder().token(bot_token_rc).build()
+    application = Application.builder().token(bot_token).build()
 
     logger: Logger = LogMixin().logger
     basic_comm: BasicCommunication = BasicCommunication(logger=logger)

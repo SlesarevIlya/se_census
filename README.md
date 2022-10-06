@@ -32,7 +32,7 @@ resolve conflicts
 ```shell
 ssh root@45.10.245.93
 git clone https://github.com/SlesarevIlya/se_census.git
-cp credentials.py se_census/
+cp credentials.py se_census/bot_tg/
 cd se_census/
 git pull
 ```
