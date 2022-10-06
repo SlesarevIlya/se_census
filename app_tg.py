@@ -1,3 +1,6 @@
+import os
+
+print(os.environ)
 from logging import Logger
 from typing import NoReturn
 
