@@ -4,7 +4,7 @@ guide: https://computingforgeeks.com/how-to-install-python-on-ubuntu-linux-syste
 sudo apt update && sudo apt upgrade -y
 sudo apt install software-properties-common -y
 sudo add-apt-repository ppa:deadsnakes/ppa
-sudo apt-get install python3.10 python3.10-dev python3.10-venv build-essential libssl-dev libffi-dev libxml2-dev libxslt1-dev zlib1g-dev libpq-dev
+sudo apt-get install python3.10 python3.10-dev python3.10-venv python3-pip build-essential libssl-dev libffi-dev libxml2-dev libxslt1-dev zlib1g-dev libpq-dev
 ```
 
 ### postgresql installing

@@ -1,13 +1,10 @@
-import os
-
-print(os.environ)
 from logging import Logger
 from typing import NoReturn
 
 from telegram.ext import Application, CommandHandler, InlineQueryHandler
 
 from bot_tg.basic_communication import BasicCommunication
-from bot_tg.credentials import bot_token, bot_token_rc
+from bot_tg.credentials import bot_token
 from bot_tg.logger import LogMixin
 from bot_tg.who_am_i import WhoAmIConversation
 

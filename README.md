@@ -35,4 +35,6 @@ git clone https://github.com/SlesarevIlya/se_census.git
 cp credentials.py se_census/bot_tg/
 cd se_census/
 git pull
+nohup python3.10 app_tg.py &
+export PYTHONPATH="/root/se_census" && python3.10 bot_tg/postgres/initial_script.py
 ```
