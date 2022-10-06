@@ -16,9 +16,15 @@ class TableUsers(DbTable):
                            Column("name", String(256)),
                            Column("first_name", String(256)),
                            Column("last_name", String(256)),
-                           Column("expiration_date", String(256)),
-                           Column("user_state", String(256)),
-                           Column("start_communication_date", String(256)))
+                           Column("bachelor_year", String(256)),
+                           Column("magister_year", String(256)),
+                           Column("country", String(256)),
+                           Column("city", String(256)),
+                           Column("company", String(256)),
+                           Column("position", String(256)),
+                           Column("linkedin", String(256)),
+                           Column("instagram", String(256)),
+                           Column("hobbies", String(256)))
 
     def get_user_by_id(self, id: str):
         pass
