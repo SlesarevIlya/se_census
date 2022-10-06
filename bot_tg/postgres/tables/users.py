@@ -1,6 +1,7 @@
-from typing import Dict, NoReturn
+from typing import Dict, NoReturn, List, Any
 
 from sqlalchemy import BigInteger, Column, String, Table, inspect
+from sqlalchemy.engine import Row
 
 from bot_tg.entities.db_table import DbTable
 from bot_tg.entities.user import User
@@ -40,7 +41,8 @@ class TableUsers(DbTable):
     def insert_record(self, user: User) -> NoReturn:
         with self.db.connect() as conn:
             exists_statement = self.table.select().where(self.table.columns.id == user.id)
-            exists = conn.execute(exists_statement).rowcount() > 0
+            select_result: List[Row] = conn.execute(exists_statement).all()
+            exists: bool = len(select_result) > 0
 
             meta_data: Dict[str, str] = dict(name=user.name,
                                              first_name=user.first_name,
@@ -61,19 +63,19 @@ class TableUsers(DbTable):
                 conn.execute(insert_statement)
                 self.logger.info(f"user {user.name} inserted")
             else:
+                # TODO think about updating. Not sure that we should do that
                 self.update_record(user.id, meta_data)
                 self.logger.info(f"user {user.name} updated")
 
-    def get_record_by_name(self, name: str, substring: bool) -> NoReturn:
+    def get_record_by_name(self, name: str, substring: bool) -> List[User]:
         with self.db.connect() as conn:
             select_statement = self.table.select()
             if substring:
                 select_statement = select_statement.where(name in self.table.c.name)
             else:
                 select_statement = select_statement.where(self.table.c.name == name)
-            result_set = conn.execute(select_statement)
-            for r in result_set:
-                print(r)
+
+            return [self.to_entity(row) for row in conn.execute(select_statement).all()]
 
     def update_record(self, id: int, updated_dict: Dict[str, str]) -> NoReturn:
         with self.db.connect() as conn:
@@ -82,3 +84,18 @@ class TableUsers(DbTable):
                                 .where(self.table.columns.id == id)
                                 .values(updated_dict))
             conn.execute(update_statement)
+
+    def to_entity(self, row: Row) -> User:
+        return User(id=row.id,
+                    name=row.name,
+                    first_name=row.first_name,
+                    last_name=row.last_name,
+                    bachelor_year=row.bachelor_year,
+                    magister_year=row.magister_year,
+                    country=row.country,
+                    city=row.city,
+                    company=row.company,
+                    position=row.position,
+                    linkedin=row.linkedin,
+                    instagram=row.instagram,
+                    hobbies=row.hobbies)

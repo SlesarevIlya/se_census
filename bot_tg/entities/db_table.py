@@ -1,8 +1,8 @@
 from abc import abstractmethod
-from typing import NoReturn
+from typing import NoReturn, Any
 
 from sqlalchemy import MetaData, create_engine
-from sqlalchemy.engine import Engine
+from sqlalchemy.engine import Engine, Row
 
 from bot_tg.logger import LogMixin
 
@@ -24,3 +24,7 @@ class DbTable(LogMixin):
     @abstractmethod
     def update_record(self, id, updated_dict) -> NoReturn:
         raise NotImplementedError("Subclasses must override method update record")
+
+    @abstractmethod
+    def to_entity(self, row: Row) -> Any:
+        raise NotImplementedError("Subclasses must override method database row to entity")
