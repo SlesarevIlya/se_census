@@ -5,7 +5,7 @@ from telegram import ReplyKeyboardRemove, Update
 from telegram.ext import (CommandHandler, ContextTypes, ConversationHandler,
                           MessageHandler, filters)
 
-from bot.entities.user import User
+from tg_bot.entities.user import User
 
 
 class WhoAmIConversation:

@@ -3,10 +3,10 @@ from typing import NoReturn
 
 from telegram.ext import Application, CommandHandler, InlineQueryHandler
 
-from bot.basic_communication import BasicCommunication
-from bot.credentials import bot_token, postgre_creds
-from bot.postgre.users import PgUsers
-from bot.who_am_i import WhoAmIConversation
+from tg_bot.basic_communication import BasicCommunication
+from tg_bot.credentials import bot_token, postgre_creds
+from tg_bot.postgres.users import PgUsers
+from tg_bot.who_am_i import WhoAmIConversation
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
