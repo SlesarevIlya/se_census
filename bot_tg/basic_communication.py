@@ -5,15 +5,14 @@ from uuid import uuid4
 from telegram import InlineQueryResultArticle, InputTextMessageContent, Update
 from telegram.ext import CallbackContext, ContextTypes
 
-from tg_bot.credentials import postgre_creds, db_string
-from tg_bot.entities.db_table import DbTable
-from tg_bot.entities.tableFactory import TableFactory
-from tg_bot.postgres.tables.users import TableUsers
+from bot_tg.entities.table_factory import TableFactory
+from bot_tg.postgres.tables.users import TableUsers
 
 
 class BasicCommunication:
     def __init__(self, logger: logging.Logger):
         self.table_factory: TableFactory = TableFactory()
+        self.logger = logger
 
     async def start(self, update: Update, context: CallbackContext):
         await update.message.reply_text("Hi SE participant!")
@@ -33,12 +32,12 @@ class BasicCommunication:
         if query == "":
             return
 
-        pg_conn = TableUsers(db=postgre_creds)
+        users: TableUsers = self.table_factory.get_table("users")
         results = [InlineQueryResultArticle(id=str(uuid4()),
                                             title=user.full_name(),
                                             input_message_content=InputTextMessageContent(user.full_meta()),
                                             description=user.description())
-                   for user in pg_conn.get_users_by_name(name=query,
-                                                         substring=True)]
+                   for user in users.get_record_by_name(name=query,
+                                                        substring=True)]
 
         await update.inline_query.answer(results)

@@ -4,7 +4,7 @@ from typing import NoReturn
 from sqlalchemy import MetaData, create_engine
 from sqlalchemy.engine import Engine
 
-from tg_bot.logger import LogMixin
+from bot_tg.logger import LogMixin
 
 
 class DbTable(LogMixin):
@@ -14,7 +14,7 @@ class DbTable(LogMixin):
         self.meta: MetaData = MetaData(self.db)
 
     @abstractmethod
-    def create_table(self) -> NoReturn:
+    def create_table(self) -> bool:
         raise NotImplementedError("Subclasses must override method create table")
 
     @abstractmethod

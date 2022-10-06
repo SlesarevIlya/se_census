@@ -1,12 +1,11 @@
 from typing import NoReturn
 
-from tg_bot.credentials import db_string
-from tg_bot.postgres.tables.users import TableUsers
+from bot_tg.entities.table_factory import TableFactory
 
 
 def main() -> NoReturn:
-    pg_users: TableUsers = TableUsers(db=db_string)
-    users_creation: bool = pg_users.create_table()
+    table_factory: TableFactory = TableFactory()
+    users_creation: bool = table_factory.get_table("users").create_table()
     if users_creation:
         print("users table created")
     else:

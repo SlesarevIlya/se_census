@@ -5,12 +5,13 @@ from telegram import ReplyKeyboardRemove, Update
 from telegram.ext import (CommandHandler, ContextTypes, ConversationHandler,
                           MessageHandler, filters)
 
-from tg_bot.entities.user import User
+from bot_tg.entities.table_factory import TableFactory
+from bot_tg.entities.user import User
 
 
 class WhoAmIConversation:
-    def __init__(self, pg_conn, logger: logging.Logger):
-        self.pg_conn = pg_conn
+    def __init__(self, logger: logging.Logger):
+        self.users = TableFactory().get_table("users")
         self.logger = logger
         self.user = User()
 
@@ -35,7 +36,6 @@ class WhoAmIConversation:
                 self.HOBBIES: [MessageHandler(filters=filters.ALL, callback=self.hobbies)]
             },
             fallbacks=[CommandHandler("cancel", self.cancel)],
-            # TODO return before merge
             conversation_timeout=60,
             allow_reentry=True
         )
@@ -124,7 +124,7 @@ class WhoAmIConversation:
 
         await update.message.reply_text("Thanks, it's great!")
         self.logger.info(self.user)
-        self.pg_conn.insert_user(self.user)
+        self.users.insert_record(self.user)
         return ConversationHandler.END
 
     async def cancel(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:

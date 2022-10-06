@@ -2,8 +2,8 @@ from typing import Dict, NoReturn
 
 from sqlalchemy import BigInteger, Column, String, Table, inspect
 
-from tg_bot.entities.db_table import DbTable
-from tg_bot.entities.user import User
+from bot_tg.entities.db_table import DbTable
+from bot_tg.entities.user import User
 
 
 class TableUsers(DbTable):

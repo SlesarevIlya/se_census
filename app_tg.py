@@ -1,23 +1,19 @@
-import logging
 from typing import NoReturn
 
 from telegram.ext import Application, CommandHandler, InlineQueryHandler
 
-from tg_bot.basic_communication import BasicCommunication
-from tg_bot.credentials import bot_token, postgre_creds
-from tg_bot.who_am_i import WhoAmIConversation
-
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
-logger = logging.getLogger(__name__)
+from bot_tg.basic_communication import BasicCommunication
+from bot_tg.credentials import bot_token
+from bot_tg.logger import LogMixin
+from bot_tg.who_am_i import WhoAmIConversation
 
 
 def main() -> NoReturn:
     application = Application.builder().token(bot_token).build()
 
-    basic_comm: BasicCommunication = BasicCommunication(pg_conn=pg_client,
-                                                        logger=logger)
-    who_am_i_conv: WhoAmIConversation = WhoAmIConversation(pg_conn=pg_client,
-                                                           logger=logger)
+    logger = LogMixin().logger()
+    basic_comm: BasicCommunication = BasicCommunication(logger=logger)
+    who_am_i_conv: WhoAmIConversation = WhoAmIConversation(logger=logger)
 
     application.add_handler(who_am_i_conv.get_handler())
     application.add_handler(CommandHandler("myprofile", basic_comm.my_profile))
