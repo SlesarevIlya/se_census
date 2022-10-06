@@ -6,7 +6,7 @@ from tg_bot.entities.db_table import DbTable
 from tg_bot.entities.user import User
 
 
-class PgUsers(DbTable):
+class TableUsers(DbTable):
     table_name: str = "users"
 
     def __init__(self, db: str):
@@ -34,7 +34,7 @@ class PgUsers(DbTable):
     def insert_record(self, user: User) -> NoReturn:
         with self.db.connect() as conn:
             exists_statement = self.table.select().where(self.table.columns.id == user.id)
-            exists = conn.execute(exists_statement).rowcount > 0
+            exists = conn.execute(exists_statement).rowcount() > 0
 
             meta_data: Dict[str, str] = dict(name=user.name,
                                              first_name=user.first_name,

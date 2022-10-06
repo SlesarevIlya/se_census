@@ -129,8 +129,6 @@ class WhoAmIConversation:
 
     async def cancel(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         self.logger.info(f"User {self.user.name} canceled the conversation.")
-        await update.message.reply_text(
-            "Ok, see you", reply_markup=ReplyKeyboardRemove()
-        )
+        await update.message.reply_text("Ok, see you", reply_markup=ReplyKeyboardRemove())
 
         return ConversationHandler.END

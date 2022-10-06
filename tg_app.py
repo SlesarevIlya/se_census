@@ -5,7 +5,6 @@ from telegram.ext import Application, CommandHandler, InlineQueryHandler
 
 from tg_bot.basic_communication import BasicCommunication
 from tg_bot.credentials import bot_token, postgre_creds
-from tg_bot.postgres.users import PgUsers
 from tg_bot.who_am_i import WhoAmIConversation
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -14,8 +13,6 @@ logger = logging.getLogger(__name__)
 
 def main() -> NoReturn:
     application = Application.builder().token(bot_token).build()
-
-    pg_client: PgUsers = PgUsers(pg_creds=postgre_creds)
 
     basic_comm: BasicCommunication = BasicCommunication(pg_conn=pg_client,
                                                         logger=logger)
