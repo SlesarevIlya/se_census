@@ -65,7 +65,7 @@ class TableUsers(DbTable):
             else:
                 # TODO think about updating. Not sure that we should do that
                 self.update_record(user.id, meta_data)
-                self.logger.info(f"user {user.name} updated")
+                self.logger.warning(f"user {user.name} updated")
 
     def get_record_by_name(self, name: str, substring: bool) -> List[User]:
         with self.db.connect() as conn:
