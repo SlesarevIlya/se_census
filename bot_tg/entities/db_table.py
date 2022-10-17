@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import NoReturn, Any
+from typing import Any, NoReturn
 
 from sqlalchemy import MetaData, create_engine
 from sqlalchemy.engine import Engine, Row
@@ -26,5 +26,5 @@ class DbTable(LogMixin):
         raise NotImplementedError("Subclasses must override method update record")
 
     @abstractmethod
-    def to_entity(self, row: Row) -> Any:
+    def row_to_entity(self, row: Row) -> Any:
         raise NotImplementedError("Subclasses must override method database row to entity")

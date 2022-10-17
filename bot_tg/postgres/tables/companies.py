@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, BigInteger
+from sqlalchemy import BigInteger, Column, Table
 
 from bot_tg.entities.db_table import DbTable
 

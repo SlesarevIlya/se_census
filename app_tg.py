@@ -19,6 +19,7 @@ def main() -> NoReturn:
     application.add_handler(CommandHandler('start', basic_comm.start))
     application.add_handler(CommandHandler('help', basic_comm.help))
     application.add_handler(CommandHandler("myprofile", basic_comm.my_profile))
+    application.add_handler(CommandHandler("export_users", basic_comm.export_users))
     application.add_handler(who_am_i_conv.get_handler())
     application.add_handler(InlineQueryHandler(basic_comm.inline_query))
 

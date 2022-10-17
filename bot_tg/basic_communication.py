@@ -1,5 +1,6 @@
 import logging
-from typing import NoReturn, List
+from datetime import datetime
+from typing import List, NoReturn
 from uuid import uuid4
 
 from telegram import InlineQueryResultArticle, InputTextMessageContent, Update
@@ -8,6 +9,7 @@ from telegram.ext import CallbackContext, ContextTypes
 from bot_tg.entities.table_factory import TableFactory
 from bot_tg.entities.user import User
 from bot_tg.postgres.tables.users import TableUsers
+from bot_tg.utils import export_to_csv, is_admin
 
 
 class BasicCommunication:
@@ -36,6 +38,19 @@ class BasicCommunication:
             response_msg: str = "We didn't find your profile. Sorry!"
 
         await update.message.reply_text(text=response_msg)
+
+    async def export_users(self, update: Update, context: CallbackContext):
+        users: TableUsers = self.table_factory.get_table("users")
+        if is_admin(update.message.from_user.id):
+            dt: datetime = datetime.now()
+            file_name: str = f"exports/{int(datetime.timestamp(dt))}_{dt.date()}_users.csv"
+
+            all_records: List[List[str]] = users.get_all()
+            export_to_csv(User.headers, all_records, file_name)
+
+            await update.message.reply_text(text=f"Export finished to {file_name}")
+        else:
+            await update.message.reply_text(text="Are you serious?")
 
     # TODO didn't test it yet
     async def inline_query(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> NoReturn:
