@@ -7,18 +7,18 @@ class User:
 
     def __init__(self,
                  id: int = 0,
-                 name: str = "0",
-                 first_name: str = "0",
-                 last_name: str = "0",
-                 bachelor_year: str = "0",
-                 master_year: str = "0",
-                 country: str = "0",
-                 city: str = "0",
-                 company: str = "0",
-                 position: str = "0",
-                 linkedin: str = "0",
-                 instagram: str = "0",
-                 hobbies: str = "0"):
+                 name: str = "unknown",
+                 first_name: str = "unknown",
+                 last_name: str = "unknown",
+                 bachelor_year: str = "unknown",
+                 master_year: str = "unknown",
+                 country: str = "unknown",
+                 city: str = "unknown",
+                 company: str = "unknown",
+                 position: str = "unknown",
+                 linkedin: str = "unknown",
+                 instagram: str = "unknown",
+                 hobbies: str = "unknown"):
         self.id = id
         self.name = name
         self.first_name = first_name
@@ -56,21 +56,21 @@ class User:
 
     def description(self) -> str:
         description: str = ""
-        if self.bachelor_year != "0" and self.master_year != "0":
+        if self.bachelor_year != "unknown" and self.master_year != "unknown":
             description += f"bachelor: {self.bachelor_year}, magister: {self.master_year}\n"
-        elif self.bachelor_year != "0":
+        elif self.bachelor_year != "unknown":
             description += f"bachelor: {self.bachelor_year}\n"
-        elif self.master_year != "0":
+        elif self.master_year != "unknown":
             description += f"magister: {self.master_year}\n"
 
-        if self.country != "0":
-            if self.city != "0":
+        if self.country != "unknown":
+            if self.city != "unknown":
                 description += f"location: {self.country}, {self.city}\n"
             else:
                 description += f"location: {self.country}\n"
 
-        if self.company != "0":
-            if self.position != "0":
+        if self.company != "unknown":
+            if self.position != "unknown":
                 description += f"working: {self.company}, {self.position}\n"
             else:
                 description += f"working: {self.company}\n"
@@ -79,11 +79,11 @@ class User:
 
     def full_meta(self):
         description: str = self.description()
-        if self.linkedin != "0":
+        if self.linkedin != "unknown":
             description += f"linkedin: {self.linkedin}\n"
-        if self.instagram != "0":
+        if self.instagram != "unknown":
             description += f"instagram: {self.instagram}\n"
-        if self.hobbies != "0":
+        if self.hobbies != "unknown":
             description += f"hobbies: {self.hobbies}\n"
 
         return description
