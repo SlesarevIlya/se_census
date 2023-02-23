@@ -1,4 +1,5 @@
-from typing import Dict, NoReturn, List, Any
+import csv
+from typing import Dict, List, NoReturn
 
 from sqlalchemy import BigInteger, Column, String, Table, inspect
 from sqlalchemy.engine import Row
@@ -29,6 +30,12 @@ class TableUsers(DbTable):
 
     def get_user_by_id(self, id: str):
         pass
+
+    def get_all(self) -> List[List[str]]:
+        with self.db.connect() as conn:
+            select_statement = self.table.select()
+
+            return [self.row_to_entity(row).to_str_array() for row in conn.execute(select_statement).all()]
 
     def create_table(self) -> bool:
         if not inspect(self.db).has_table(self.table_name):
@@ -65,7 +72,7 @@ class TableUsers(DbTable):
             else:
                 # TODO think about updating. Not sure that we should do that
                 self.update_record(user.id, meta_data)
-                self.logger.info(f"user {user.name} updated")
+                self.logger.warning(f"user {user.name} updated")
 
     def get_record_by_name(self, name: str, substring: bool) -> List[User]:
         with self.db.connect() as conn:
@@ -75,7 +82,7 @@ class TableUsers(DbTable):
             else:
                 select_statement = select_statement.where(self.table.c.name == name)
 
-            return [self.to_entity(row) for row in conn.execute(select_statement).all()]
+            return [self.row_to_entity(row) for row in conn.execute(select_statement).all()]
 
     def update_record(self, id: int, updated_dict: Dict[str, str]) -> NoReturn:
         with self.db.connect() as conn:
@@ -85,7 +92,30 @@ class TableUsers(DbTable):
                                 .values(updated_dict))
             conn.execute(update_statement)
 
-    def to_entity(self, row: Row) -> User:
+    def import_from_csv(self, file_name: str) -> bool:
+        with open(file_name) as file:
+            reader = csv.reader(file, delimiter=',')
+            [self.insert_record(self.array_to_entity(row)) for i, row in enumerate(reader) if i != 0]
+            return True
+
+    def array_to_entity(self, arr: List) -> User:
+        def get_or_default(i: int) -> str:
+            return arr[i] if i < len(arr) else "0"
+        return User(id=int(arr[0]),
+                    name=get_or_default(1),
+                    first_name=get_or_default(2),
+                    last_name=get_or_default(3),
+                    bachelor_year=get_or_default(4),
+                    master_year=get_or_default(5),
+                    country=get_or_default(6),
+                    city=get_or_default(7),
+                    company=get_or_default(8),
+                    position=get_or_default(9),
+                    linkedin=get_or_default(10),
+                    instagram=get_or_default(11),
+                    hobbies=get_or_default(12))
+
+    def row_to_entity(self, row: Row) -> User:
         return User(id=row.id,
                     name=row.name,
                     first_name=row.first_name,

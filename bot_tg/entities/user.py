@@ -1,4 +1,9 @@
+from typing import List
+
+
 class User:
+    headers = ["id", "name", "first_name", "last_name", "bachelor_year", "master_year", "country",
+               "city", "company", "position", "linkedin", "instagram", "hobbies"]
 
     def __init__(self,
                  id: int = 0,
@@ -41,6 +46,10 @@ class User:
                          "linkedin:", self.linkedin, "\n",
                          "instagram:", self.instagram, "\n",
                          "hobbies:", self.hobbies, "\n"])
+
+    def to_str_array(self) -> List[str]:
+        return [str(self.id), self.name, self.first_name, self.last_name, self.bachelor_year, self.master_year,
+                self.country, self.city, self.company, self.position, self.linkedin, self.instagram, self.hobbies]
 
     def full_name(self):
         return f"{self.name}: {self.first_name} {self.last_name}"
