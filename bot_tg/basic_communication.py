@@ -18,6 +18,7 @@ class BasicCommunication:
         self.logger = logger
 
     async def start(self, update: Update, context: CallbackContext):
+        print("smth happened")
         users: TableUsers = self.table_factory.get_table("users")
         users.insert_record(User(id=update.message.from_user.id))
         await update.message.reply_text("Hi SE participant!")
