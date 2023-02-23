@@ -23,6 +23,7 @@ class BasicCommunication:
         await update.message.reply_text("Hi SE participant!")
 
     async def help(self, update: Update, context: CallbackContext):
+        self.logger.info(f"help called by user: {update.message.from_user.name}")
         await update.message.reply_text("WTF am I doing?? Help yourself!")
 
     async def my_profile(self, update: Update, context: CallbackContext):
