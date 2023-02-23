@@ -25,6 +25,7 @@ def main() -> NoReturn:
 
     logger.info("Bot started")
     application.run_polling()
+    logger.info("Bot start polling")
 
 
 if __name__ == "__main__":
