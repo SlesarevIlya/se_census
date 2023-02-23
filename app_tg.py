@@ -16,8 +16,8 @@ def main() -> NoReturn:
     basic_comm: BasicCommunication = BasicCommunication(logger=logger)
     who_am_i_conv: WhoAmIConversation = WhoAmIConversation(logger=logger)
 
-    application.add_handler(CommandHandler('start', basic_comm.start))
-    application.add_handler(CommandHandler('help', basic_comm.help))
+    application.add_handler(CommandHandler("start", basic_comm.start))
+    application.add_handler(CommandHandler("help", basic_comm.help))
     application.add_handler(CommandHandler("myprofile", basic_comm.my_profile))
     application.add_handler(CommandHandler("export_users", basic_comm.export_users))
     application.add_handler(who_am_i_conv.get_handler())
@@ -27,5 +27,5 @@ def main() -> NoReturn:
     application.run_polling()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

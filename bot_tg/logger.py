@@ -9,7 +9,8 @@ class LogMixin(ABC):
     def logger(self):
         logger: logging.Logger = logging.getLogger(f"{__name__}-{self.__class__.__name__}")
         logger.handlers.clear()
-        # TODO smth wrong, need to think
+        logger.setLevel(logging.DEBUG)
+
         info_handler = logging.StreamHandler(sys.stdout)
         info_handler.setFormatter(logging.Formatter('INFO: %(asctime)s - %(name)s - %(levelname)s - %(message)s'))
         info_handler.setLevel(level=logging.INFO)
